@@ -1,19 +1,39 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+} from '@nestjs/common';
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
-import { Device } from './interfaces/device.interface';
+import { ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
 @Controller('devices')
+@ApiTags('devices')
 export class DevicesController {
-  constructor(private devicesService: DevicesService) {}
+  constructor(private readonly devicesService: DevicesService) {}
 
   @Post()
-  async create(@Body() createDeviceDto: CreateDeviceDto) {
-    this.devicesService.create(createDeviceDto);
+  create(@Body() createDeviceDto: CreateDeviceDto) {
+    return this.devicesService.create(createDeviceDto);
   }
 
   @Get()
-  async findAll(): Promise<Device[]> {
-    return this.devicesService.findAll();
+  findAll(@Req() request: Request) {
+    return this.devicesService.findAll(request);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.devicesService.findOne(id);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.devicesService.remove(id);
   }
 }
