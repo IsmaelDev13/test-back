@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 // import { GraphQLModule } from '@nestjs/graphql';
 // import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 // import { DevicesModule } from './devices/devices.module';
@@ -6,6 +6,7 @@ import { Module } from '@nestjs/common';
 // import { DevicesService } from './devices/devices.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DevicesModule } from './devices/devices.module';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -13,6 +14,16 @@ import { DevicesModule } from './devices/devices.module';
       'mongodb+srv://root:root@cluster0.5ga97zt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
     ),
     DevicesModule,
+  ],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      }),
+    },
   ],
 })
 

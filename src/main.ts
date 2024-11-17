@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 // import { SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -14,9 +13,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: ['http://localhost:3000', 'https://test-front-sage.vercel.app'],
-    methods: ['GET', 'POST', 'DELETE'],
+    methods: ['GET', 'POST', 'DELETE', 'PUT'],
   });
-  app.useGlobalPipes(new ValidationPipe());
+
   // const document = SwaggerModule.createDocument(app, options);
   // SwaggerModule.setup('docs', app, document);
 
