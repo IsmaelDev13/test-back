@@ -9,7 +9,7 @@ import { Device } from './interfaces/device.interface';
 export class DevicesService {
   constructor(
     @InjectModel('Device')
-    private readonly deviceModel: Model<Device>,
+    private deviceModel: Model<Device>,
   ) {}
 
   async create(createDeviceDto: CreateDeviceDto): Promise<Device> {
