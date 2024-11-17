@@ -7,17 +7,36 @@ import {
   Post,
   HttpStatus,
   HttpException,
+  Res,
+  Options,
 } from '@nestjs/common';
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
+import { Response } from 'express';
 
 @Controller('devices')
 export class DevicesController {
   constructor(private readonly devicesService: DevicesService) {}
 
+  @Options('*')
+  handleOptions(@Res() res: Response) {
+    res.setHeader('Access-Control-Allow-Origin', '*'); //
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    );
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization',
+    );
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.status(200).end();
+  }
+
   @Post()
   async create(@Body() createDeviceDto: CreateDeviceDto) {
     console.log(createDeviceDto);
+
     try {
       const newDevice = await this.devicesService.create(createDeviceDto);
       return {
