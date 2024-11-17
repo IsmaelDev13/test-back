@@ -3,17 +3,18 @@ import { InjectModel } from '@nestjs/mongoose';
 // import { DeviceDocument } from './schemas/devices.schema';
 import { Model } from 'mongoose';
 import { CreateDeviceDto } from './dto/create-device.dto';
-import { Device } from './interfaces/device.interface';
+import { Device } from './schemas/devices.schema';
+// import { Device } from './interfaces/device.interface';
 
 @Injectable()
 export class DevicesService {
   constructor(
-    @InjectModel('Device')
+    @InjectModel(Device.name)
     private deviceModel: Model<Device>,
   ) {}
 
   async create(createDeviceDto: CreateDeviceDto): Promise<Device> {
-    const newDevice = await new this.deviceModel(createDeviceDto);
+    const newDevice = new this.deviceModel(createDeviceDto);
     return newDevice.save();
   }
 

@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
-export type DeviceDocument = Device & Document;
+export type DeviceDocument = HydratedDocument<Device>;
 
 @Schema()
 export class Device {
@@ -24,7 +24,7 @@ export class Device {
   type: string;
 
   @Prop()
-  phoneNumber: number;
+  phoneNumber: string;
 
   @Prop()
   latitude: number;
