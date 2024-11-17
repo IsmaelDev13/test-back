@@ -9,7 +9,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { DevicesService } from './devices.service';
-import { CreateDeviceDto } from './dto/device.dto';
+import { CreateDeviceDto } from './dto/create-device.dto';
 
 @Controller('devices')
 export class DevicesController {
