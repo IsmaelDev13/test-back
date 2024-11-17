@@ -3,48 +3,48 @@ export class CreateDeviceDto {
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly firstName: string;
+  firstName: string;
 
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly lastName: string;
+  lastName: string;
 
   @IsString()
   @MaxLength(100)
   @IsNotEmpty()
-  readonly description: string;
+  description: string;
 
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly presentOrg: string;
+  presentOrg: string;
 
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly role: string;
+  role: string;
 
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly type: string;
+  type: string;
 
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly phoneNumber: string;
+  phoneNumber: string;
 
   @IsNumber()
   @IsNotEmpty()
-  readonly latitude: number;
+  latitude: number;
 
   @IsNumber()
   @IsNotEmpty()
-  readonly longitude: number;
+  longitude: number;
 
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly lastConnection: string;
+  lastConnection: string;
 }

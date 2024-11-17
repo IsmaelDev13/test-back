@@ -16,19 +16,19 @@ export class DevicesController {
   constructor(private readonly devicesService: DevicesService) {}
 
   @Post()
-  async create(@Res() response, @Body() createDeviceDto: CreateDeviceDto) {
+  async create(@Body() createDeviceDto: CreateDeviceDto) {
     try {
       const newDevice = await this.devicesService.create(createDeviceDto);
-      return response.status(HttpStatus.CREATED).json({
+      return {
         message: 'Device has been created successfully',
         newDevice,
-      });
+      };
     } catch (err) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         statusCode: 400,
         message: 'Error: Student not created!' + err,
         error: 'Bad Request',
-      });
+      };
     }
   }
 
