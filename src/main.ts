@@ -10,7 +10,11 @@ async function bootstrap() {
   //   .setVersion('1.0')
   //   .build();
 
-  const app = await NestFactory.create(AppModule, { cors: false });
+  const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: ['http://localhost:3000', 'https://test-front-sage.vercel.app'],
+    methods: ['GET', 'POST', 'DELETE'],
+  });
   // const document = SwaggerModule.createDocument(app, options);
   // SwaggerModule.setup('docs', app, document);
 
