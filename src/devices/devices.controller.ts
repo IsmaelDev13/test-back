@@ -9,14 +9,15 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { DevicesService } from './devices.service';
-import { CreateDeviceDto } from './dto/create-device.dto';
+// import { CreateDeviceDto } from './dto/create-device.dto';
 
 @Controller('devices')
 export class DevicesController {
   constructor(private readonly devicesService: DevicesService) {}
 
   @Post()
-  async create(@Body() createDeviceDto: CreateDeviceDto) {
+  async create(@Body() createDeviceDto: any) {
+    console.log(createDeviceDto);
     try {
       const newDevice = await this.devicesService.create(createDeviceDto);
       return {
