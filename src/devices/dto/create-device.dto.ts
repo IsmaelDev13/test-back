@@ -12,7 +12,7 @@ export class CreateDeviceDto {
   readonly lastName: string;
 
   @ApiProperty({
-    description: 'Description',
+    example: 'Description',
   })
   readonly description: string;
 
