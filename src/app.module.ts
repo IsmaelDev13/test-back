@@ -6,7 +6,6 @@ import { Module } from '@nestjs/common';
 // import { DevicesService } from './devices/devices.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DevicesModule } from './devices/devices.module';
-import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -14,7 +13,6 @@ import { UsersModule } from './users/users.module';
       'mongodb+srv://root:root@cluster0.5ga97zt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
     ),
     DevicesModule,
-    UsersModule,
   ],
 })
 

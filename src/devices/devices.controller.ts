@@ -11,6 +11,7 @@ import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
+import { ParseObjectIdPipe } from './utilities/parse-object-pipe.pipe';
 
 @Controller('devices')
 @ApiTags('devices')
@@ -28,7 +29,7 @@ export class DevicesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseObjectIdPipe) id: string) {
     return this.devicesService.findOne(id);
   }
 
