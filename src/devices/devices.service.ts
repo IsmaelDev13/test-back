@@ -1,34 +1,44 @@
-import { Injectable } from '@nestjs/common';
-import { Device } from './schemas/devices.schema';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { DeviceDocument } from './schemas/devices.schema';
+// import { DeviceDocument } from './schemas/devices.schema';
 import { Model } from 'mongoose';
 import { CreateDeviceDto } from './dto/create-device.dto';
-import { Request } from 'express';
+import { Device } from './interfaces/device.interface';
 
 @Injectable()
 export class DevicesService {
   constructor(
-    @InjectModel(Device.name)
-    private readonly deviceModel: Model<DeviceDocument>,
+    @InjectModel('Device')
+    private readonly deviceModel: Model<Device>,
   ) {}
 
   async create(createDeviceDto: CreateDeviceDto): Promise<Device> {
-    return this.deviceModel.create(createDeviceDto);
+    const newDevice = await new this.deviceModel(createDeviceDto);
+    return newDevice.save();
   }
 
-  async findAll(request: Request): Promise<Device[]> {
-    return this.deviceModel
-      .find(request.query)
-      .setOptions({ sanitizeFilter: true })
-      .exec();
+  async findAll(): Promise<Device[]> {
+    const devices = await this.deviceModel.find();
+    if (!devices || devices.length == 0) {
+      throw new NotFoundException('No Devices found');
+    }
+    return devices;
   }
 
   async findOne(id: string): Promise<Device> {
-    return this.deviceModel.findOne({ _id: id }).exec();
+    const existingDevice = await this.deviceModel.findById(id).exec();
+    if (!existingDevice) {
+      throw new NotFoundException();
+    }
+    return existingDevice;
   }
 
-  async remove(id: string) {
-    return this.deviceModel.findByIdAndDelete({ _id: id }).exec();
+  async remove(id: string): Promise<Device> {
+    // return this.deviceModel.findByIdAndDelete({ _id: id }).exec();
+    const deviceToRemove = await this.deviceModel.findByIdAndDelete(id);
+    if (!deviceToRemove) {
+      throw new NotFoundException(`Device #${id} not found`);
+    }
+    return deviceToRemove;
   }
 }

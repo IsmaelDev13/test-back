@@ -1,45 +1,50 @@
-import { ApiProperty } from '@nestjs/swagger';
-
+import { IsString, IsNumber, IsNotEmpty, MaxLength } from 'class-validator';
 export class CreateDeviceDto {
-  @ApiProperty({
-    example: 'Device 1',
-  })
+  @IsString()
+  @MaxLength(30)
+  @IsNotEmpty()
   readonly firstName: string;
 
-  @ApiProperty({
-    example: '1',
-  })
+  @IsString()
+  @MaxLength(30)
+  @IsNotEmpty()
   readonly lastName: string;
 
-  @ApiProperty({
-    example: 'Description',
-  })
+  @IsString()
+  @MaxLength(100)
+  @IsNotEmpty()
   readonly description: string;
 
-  @ApiProperty({
-    example: 'Vodafone',
-  })
+  @IsString()
+  @MaxLength(30)
+  @IsNotEmpty()
   readonly presentOrg: string;
 
-  @ApiProperty({
-    example: 'Role',
-  })
+  @IsString()
+  @MaxLength(30)
+  @IsNotEmpty()
   readonly role: string;
 
-  @ApiProperty({
-    example: 'User',
-  })
+  @IsString()
+  @MaxLength(30)
+  @IsNotEmpty()
   readonly type: string;
 
-  @ApiProperty({ example: '666554433' })
+  @IsString()
+  @MaxLength(30)
+  @IsNotEmpty()
   readonly phoneNumber: string;
 
-  @ApiProperty({ example: 36.72016 })
+  @IsNumber()
+  @IsNotEmpty()
   readonly latitude: number;
 
-  @ApiProperty({ example: -4.42034 })
+  @IsNumber()
+  @IsNotEmpty()
   readonly longitude: number;
 
-  @ApiProperty({ example: 'yesterday' })
+  @IsString()
+  @MaxLength(30)
+  @IsNotEmpty()
   readonly lastConnection: string;
 }

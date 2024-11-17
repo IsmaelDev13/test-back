@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 // import { SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -15,6 +16,7 @@ async function bootstrap() {
     origin: ['http://localhost:3000', 'https://test-front-sage.vercel.app'],
     methods: ['GET', 'POST', 'DELETE'],
   });
+  app.useGlobalPipes(new ValidationPipe());
   // const document = SwaggerModule.createDocument(app, options);
   // SwaggerModule.setup('docs', app, document);
 
