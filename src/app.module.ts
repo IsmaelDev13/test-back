@@ -1,29 +1,21 @@
-import { Module, ValidationPipe } from '@nestjs/common';
-// import { GraphQLModule } from '@nestjs/graphql';
-// import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-// import { DevicesModule } from './devices/devices.module';
-// import { DevicesController } from './devices/devices.controller';
-// import { DevicesService } from './devices/devices.service';
+import { Module } from '@nestjs/common';
+
 import { MongooseModule } from '@nestjs/mongoose';
 import { DevicesModule } from './devices/devices.module';
-import { APP_PIPE } from '@nestjs/core';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://root:root@cluster0.5ga97zt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
-    ),
-    DevicesModule,
-  ],
-  providers: [
-    {
-      provide: APP_PIPE,
-      useValue: new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
-        transform: true,
+    ConfigModule.forRoot(),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGO_URI'),
       }),
-    },
+    }),
+
+    DevicesModule,
   ],
 })
 

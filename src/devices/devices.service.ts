@@ -1,21 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-// import { DeviceDocument } from './schemas/devices.schema';
+
 import { Model } from 'mongoose';
 import { CreateDeviceDto } from './dto/create-device.dto';
-import { Device } from './schemas/devices.schema';
-// import { Device } from './interfaces/device.interface';
+import { Device, DeviceDocument } from './schemas/devices.schema';
 
 @Injectable()
 export class DevicesService {
   constructor(
     @InjectModel(Device.name)
-    private deviceModel: Model<Device>,
+    private deviceModel: Model<DeviceDocument>,
   ) {}
 
   async create(createDeviceDto: CreateDeviceDto): Promise<Device> {
-    const newDevice = new this.deviceModel(createDeviceDto);
-    return newDevice.save();
+    try {
+      const newDevice = new this.deviceModel(createDeviceDto);
+      return await newDevice.save();
+    } catch (error) {
+      throw new Error(`Device creation failed: ${error.message}`);
+    }
   }
 
   async findAll(): Promise<Device[]> {
@@ -35,7 +38,6 @@ export class DevicesService {
   }
 
   async remove(id: string): Promise<Device> {
-    // return this.deviceModel.findByIdAndDelete({ _id: id }).exec();
     const deviceToRemove = await this.deviceModel.findByIdAndDelete(id);
     if (!deviceToRemove) {
       throw new NotFoundException(`Device #${id} not found`);

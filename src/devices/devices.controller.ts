@@ -5,18 +5,18 @@ import {
   Get,
   Param,
   Post,
-  Res,
   HttpStatus,
+  HttpException,
 } from '@nestjs/common';
 import { DevicesService } from './devices.service';
-// import { CreateDeviceDto } from './dto/create-device.dto';
+import { CreateDeviceDto } from './dto/create-device.dto';
 
 @Controller('devices')
 export class DevicesController {
   constructor(private readonly devicesService: DevicesService) {}
 
   @Post()
-  async create(@Body() createDeviceDto: any) {
+  async create(@Body() createDeviceDto: CreateDeviceDto) {
     console.log(createDeviceDto);
     try {
       const newDevice = await this.devicesService.create(createDeviceDto);
@@ -34,41 +34,59 @@ export class DevicesController {
   }
 
   @Get()
-  async findAll(@Res() response) {
+  async findAll() {
     try {
       const devices = await this.devicesService.findAll();
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Devices found successfuly',
         devices,
-      });
+      };
     } catch (error) {
-      return response.status(error.status).json(error.response);
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.NOT_FOUND,
+          message: error.message || 'No devices found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 
   @Get('/:id')
-  async getDevice(@Res() response, @Param('id') id: string) {
+  async getDevice(@Param('id') id: string) {
     try {
       const existingDevice = await this.devicesService.findOne(id);
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Device found successfully',
         existingDevice,
-      });
+      };
     } catch (error) {
-      return response.status(error.status).json(error.response);
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.NOT_FOUND,
+          message: error.message || `Device with ID ${id} not found`,
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 
   @Delete('/:id')
-  async deleteDevice(@Res() response, @Param('id') id: string) {
+  async deleteDevice(@Param('id') id: string) {
     try {
       const deviceToDelete = await this.devicesService.remove(id);
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Device deleted successfully',
         deviceToDelete,
-      });
+      };
     } catch (error) {
-      return response.status(error.status).json(error.response);
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.NOT_FOUND,
+          message: error.message || `Device with ID ${id} not found`,
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 }
