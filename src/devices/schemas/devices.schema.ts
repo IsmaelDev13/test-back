@@ -6,7 +6,22 @@ export type DeviceDocument = Device & Document;
 @Schema()
 export class Device {
   @Prop()
-  name: string;
+  firstName: string;
+
+  @Prop()
+  lastName: string;
+
+  @Prop()
+  description: string;
+
+  @Prop()
+  presentOrg: string;
+
+  @Prop()
+  role: string;
+
+  @Prop()
+  type: string;
 
   @Prop()
   phoneNumber: number;

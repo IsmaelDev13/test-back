@@ -4,7 +4,32 @@ export class CreateDeviceDto {
   @ApiProperty({
     example: 'Device 1',
   })
-  readonly name: string;
+  readonly firstName: string;
+
+  @ApiProperty({
+    example: '1',
+  })
+  readonly lastName: string;
+
+  @ApiProperty({
+    description: 'Description',
+  })
+  readonly description: string;
+
+  @ApiProperty({
+    example: 'Vodafone',
+  })
+  readonly presentOrg: string;
+
+  @ApiProperty({
+    example: 'Role',
+  })
+  readonly role: string;
+
+  @ApiProperty({
+    example: 'User',
+  })
+  readonly type: string;
 
   @ApiProperty({ example: '666554433' })
   readonly phoneNumber: string;
